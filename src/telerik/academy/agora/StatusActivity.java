@@ -2,6 +2,7 @@ package telerik.academy.agora;
 
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
+import winterwell.jtwitter.URLConnectionHttpClient;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -116,18 +117,17 @@ public class StatusActivity extends Activity implements OnClickListener,
 
 	// Called when button is clicked
 	public void onClick(View view) {
-		/*
-		 * String status = editText.getText().toString(); new
-		 * PostToTwitter().execute(status); Log.d(TAG, "onClicked");
-		 */
+
+		String status = editText.getText().toString();
+		new PostToTwitter().execute(status);
+		Log.d(TAG, "onClicked");
 
 		// Update twitter status
-		try {
-			String status = editText.getText().toString();
-			getTwitter().setStatus(status);
-		} catch (TwitterException e) {
-			Log.d(TAG, "Twitter setStatus failed: " + e);
-		}
+		/*
+		 * try { String status = editText.getText().toString();
+		 * getTwitter().setStatus(status); } catch (TwitterException e) {
+		 * Log.d(TAG, "Twitter setStatus failed: " + e); }
+		 */
 	}
 
 	// TextWatcher methods
@@ -157,7 +157,8 @@ public class StatusActivity extends Activity implements OnClickListener,
 					"http://yamba.marakana.com/api");
 
 			// Connect to twitter.com
-			twitter = new Twitter(username, password);
+			twitter = new Twitter(username, new URLConnectionHttpClient(
+					username, password));
 			twitter.setAPIRootUrl(apiRoot);
 		}
 
