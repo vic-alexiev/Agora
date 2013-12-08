@@ -1,16 +1,11 @@
 package telerik.academy.agora;
 
-import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
-import winterwell.jtwitter.URLConnectionHttpClient;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,14 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class StatusActivity extends Activity implements OnClickListener,
-		TextWatcher, OnSharedPreferenceChangeListener {
+		TextWatcher {
 
 	private static final String TAG = "StatusActivity";
 	private EditText editText;
 	private Button updateButton;
-	private Twitter twitter;
 	private TextView textCount;
-	private SharedPreferences prefs;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -50,18 +43,6 @@ public class StatusActivity extends Activity implements OnClickListener,
 		textCount = (TextView) findViewById(R.id.textCount);
 		textCount.setText(Integer.toString(140));
 		textCount.setTextColor(Color.rgb(178, 168, 26)); // green
-
-		// Setup preferences
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(this);
-
-		twitter = getTwitter();
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-		// invalidate twitter object
-		twitter = null;
 	}
 
 	// Called first time user clicks on the menu button
@@ -76,6 +57,12 @@ public class StatusActivity extends Activity implements OnClickListener,
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.itemServiceStart:
+			startService(new Intent(this, UpdaterService.class));
+			break;
+		case R.id.itemServiceStop:
+			stopService(new Intent(this, UpdaterService.class));
+			break;
 		case R.id.itemPrefs:
 			startActivity(new Intent(this, PrefsActivity.class));
 			break;
@@ -90,12 +77,12 @@ public class StatusActivity extends Activity implements OnClickListener,
 		@Override
 		protected String doInBackground(String... statuses) {
 			try {
-				winterwell.jtwitter.Status status = twitter
+				AgoraApplication agora = ((AgoraApplication) getApplication());
+				winterwell.jtwitter.Status status = agora.getTwitter()
 						.updateStatus(statuses[0]);
 				return status.text;
 			} catch (TwitterException e) {
-				Log.e(TAG, e.toString());
-				e.printStackTrace();
+				Log.e(TAG, "Failed to connect to twitter service", e);
 				return "Failed to post";
 			}
 		}
@@ -118,16 +105,10 @@ public class StatusActivity extends Activity implements OnClickListener,
 	// Called when button is clicked
 	public void onClick(View view) {
 
+		// Update twitter status
 		String status = editText.getText().toString();
 		new PostToTwitter().execute(status);
 		Log.d(TAG, "onClicked");
-
-		// Update twitter status
-		/*
-		 * try { String status = editText.getText().toString();
-		 * getTwitter().setStatus(status); } catch (TwitterException e) {
-		 * Log.d(TAG, "Twitter setStatus failed: " + e); }
-		 */
 	}
 
 	// TextWatcher methods
@@ -146,22 +127,5 @@ public class StatusActivity extends Activity implements OnClickListener,
 	}
 
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-	}
-
-	private Twitter getTwitter() {
-		if (twitter == null) {
-			String username, password, apiRoot;
-			username = prefs.getString("username", "");
-			password = prefs.getString("password", "");
-			apiRoot = prefs.getString("apiRoot",
-					"http://yamba.marakana.com/api");
-
-			// Connect to twitter.com
-			twitter = new Twitter(username, new URLConnectionHttpClient(
-					username, password));
-			twitter.setAPIRootUrl(apiRoot);
-		}
-
-		return twitter;
 	}
 }
