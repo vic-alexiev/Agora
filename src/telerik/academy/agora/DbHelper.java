@@ -10,7 +10,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	static final String TAG = "DbHelper";
 	static final String DB_NAME = "timeline.db";
-	static final int DB_VERSION = 1;
+	static final int DB_VERSION = 2;
 	static final String TABLE = "timeline";
 	static final String C_ID = BaseColumns._ID;
 	static final String C_CREATED_AT = "created_at";
@@ -30,7 +30,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String sql = "create table " + TABLE + " (" + C_ID
 				+ " int primary key, " + C_CREATED_AT + " int, " + C_USER
-				+ " text, " + C_TEXT + " text)";
+				+ " text, " + C_SOURCE + " text, " + C_TEXT + " text)";
 		db.execSQL(sql);
 		Log.d(TAG, "onCreated sql: " + sql);
 	}
