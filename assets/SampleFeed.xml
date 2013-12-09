@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss">
+  <channel>
+    <title>Yamba public timeline</title>
+    <link>http://yamba.marakana.com/</link>
+    <atom:link type="application/rss+xml" href="http://yamba.marakana.com/api/statuses/public_timeline.rss" rel="self"></atom:link>
+    <image>
+      <link>http://yamba.marakana.com/</link>
+      <title>Yamba public timeline</title>
+      <url>http://marakana.com/static/logos/logo-marakana-orange-gray-200x50.png</url>
+    </image>
+    <description>Yamba updates from everyone!</description>
+    <language>en-us</language>
+    <ttl>40</ttl>
+    <item>
+      <title>student: 1</title>
+      <description>1</description>
+      <pubDate>Mon, 09 Dec 2013 13:33:04 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/105</guid>
+      <link>http://yamba.marakana.com/notice/105</link>
+    </item>
+    <item>
+      <title>student: 1</title>
+      <description>1</description>
+      <pubDate>Mon, 09 Dec 2013 13:30:11 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/104</guid>
+      <link>http://yamba.marakana.com/notice/104</link>
+    </item>
+    <item>
+      <title>student: fgg</title>
+      <description>fgg</description>
+      <pubDate>Mon, 09 Dec 2013 12:13:39 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/103</guid>
+      <link>http://yamba.marakana.com/notice/103</link>
+    </item>
+    <item>
+      <title>student: so we are back</title>
+      <description>so we are back</description>
+      <pubDate>Mon, 09 Dec 2013 09:56:07 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/102</guid>
+      <link>http://yamba.marakana.com/notice/102</link>
+    </item>
+    <item>
+      <title>student: Hello my dear!!!</title>
+      <description>Hello my dear!!!</description>
+      <pubDate>Sun, 08 Dec 2013 23:41:45 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/101</guid>
+      <link>http://yamba.marakana.com/notice/101</link>
+    </item>
+    <item>
+      <title>student: Testing</title>
+      <description>Testing</description>
+      <pubDate>Sun, 08 Dec 2013 23:12:12 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/100</guid>
+      <link>http://yamba.marakana.com/notice/100</link>
+    </item>
+    <item>
+      <title>student: wjq</title>
+      <description>wjq</description>
+      <pubDate>Sun, 08 Dec 2013 21:46:21 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/99</guid>
+      <link>http://yamba.marakana.com/notice/99</link>
+    </item>
+    <item>
+      <title>student: well does this work?</title>
+      <description>well does this work?</description>
+      <pubDate>Sun, 08 Dec 2013 20:55:01 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/98</guid>
+      <link>http://yamba.marakana.com/notice/98</link>
+    </item>
+    <item>
+      <title>student: ijd6</title>
+      <description>ijd6</description>
+      <pubDate>Sun, 08 Dec 2013 20:53:32 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/97</guid>
+      <link>http://yamba.marakana.com/notice/97</link>
+    </item>
+    <item>
+      <title>student: uuuuu</title>
+      <description>uuuuu</description>
+      <pubDate>Sun, 08 Dec 2013 20:49:00 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/96</guid>
+      <link>http://yamba.marakana.com/notice/96</link>
+    </item>
+    <item>
+      <title>student: eeeeeee</title>
+      <description>eeeeeee</description>
+      <pubDate>Sun, 08 Dec 2013 20:46:16 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/95</guid>
+      <link>http://yamba.marakana.com/notice/95</link>
+    </item>
+    <item>
+      <title>student: start</title>
+      <description>start</description>
+      <pubDate>Sun, 08 Dec 2013 19:24:22 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/94</guid>
+      <link>http://yamba.marakana.com/notice/94</link>
+    </item>
+    <item>
+      <title>student: debug</title>
+      <description>debug</description>
+      <pubDate>Sun, 08 Dec 2013 19:21:02 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/93</guid>
+      <link>http://yamba.marakana.com/notice/93</link>
+    </item>
+    <item>
+      <title>student: startin trace</title>
+      <description>startin trace</description>
+      <pubDate>Sun, 08 Dec 2013 19:16:03 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/92</guid>
+      <link>http://yamba.marakana.com/notice/92</link>
+    </item>
+    <item>
+      <title>student: testing status provider</title>
+      <description>testing status provider</description>
+      <pubDate>Sun, 08 Dec 2013 18:58:55 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/91</guid>
+      <link>http://yamba.marakana.com/notice/91</link>
+    </item>
+    <item>
+      <title>student: blah</title>
+      <description>blah</description>
+      <pubDate>Sun, 08 Dec 2013 18:51:42 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/90</guid>
+      <link>http://yamba.marakana.com/notice/90</link>
+    </item>
+    <item>
+      <title>student: test</title>
+      <description>test</description>
+      <pubDate>Sun, 08 Dec 2013 18:47:35 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/89</guid>
+      <link>http://yamba.marakana.com/notice/89</link>
+    </item>
+    <item>
+      <title>student: temp</title>
+      <description>temp</description>
+      <pubDate>Sun, 08 Dec 2013 18:43:13 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/88</guid>
+      <link>http://yamba.marakana.com/notice/88</link>
+    </item>
+    <item>
+      <title>student: antehr test</title>
+      <description>antehr test</description>
+      <pubDate>Sun, 08 Dec 2013 18:18:58 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/87</guid>
+      <link>http://yamba.marakana.com/notice/87</link>
+    </item>
+    <item>
+      <title>student: testy</title>
+      <description>testy</description>
+      <pubDate>Sun, 08 Dec 2013 18:17:53 -0800</pubDate>
+      <guid>http://yamba.marakana.com/notice/86</guid>
+      <link>http://yamba.marakana.com/notice/86</link>
+    </item>
+  </channel>
+</rss>

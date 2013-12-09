@@ -1,5 +1,6 @@
 package telerik.academy.agora;
 
+import telerik.academy.agora.preferences.PrefsActivity;
 import winterwell.jtwitter.TwitterException;
 import android.app.Activity;
 import android.content.Intent;

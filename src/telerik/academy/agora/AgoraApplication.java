@@ -1,5 +1,6 @@
 package telerik.academy.agora;
 
+import telerik.academy.agora.reader.RssReader;
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.URLConnectionHttpClient;
 import android.app.Application;
@@ -15,6 +16,7 @@ public class AgoraApplication extends Application implements
 	private static final String TAG = AgoraApplication.class.getSimpleName();
 	private boolean serviceRunning;
 	public Twitter twitter;
+	public RssReader rssReader;
 	private SharedPreferences prefs;
 
 	public boolean isServiceRunning() {
@@ -53,6 +55,11 @@ public class AgoraApplication extends Application implements
 			}
 		}
 		return this.twitter;
+	}
+	
+	public synchronized RssReader getRssReader() {
+		this.rssReader = new RssReader("http://yamba.marakana.com/api/statuses/public_timeline.rss");
+		return this.rssReader;
 	}
 
 	public synchronized void onSharedPreferenceChanged(

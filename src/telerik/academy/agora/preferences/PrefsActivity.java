@@ -1,5 +1,6 @@
-package telerik.academy.agora;
+package telerik.academy.agora.preferences;
 
+import telerik.academy.agora.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;

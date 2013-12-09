@@ -1,12 +1,11 @@
 package telerik.academy.agora;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import winterwell.jtwitter.Status;
+import telerik.academy.agora.database.DbHelper;
+import telerik.academy.agora.reader.RssItem;
+import telerik.academy.agora.reader.RssReader;
 import winterwell.jtwitter.TwitterException;
-import winterwell.jtwitter.User;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -15,15 +14,16 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class UpdaterService extends Service {
-	static final String TAG = "UpdaterService";
 
-	static final int DELAY = 60000; // wait a minute
+	private static final String TAG = "UpdaterService";
+
+	private static final int DELAY = 60000; // wait a minute
 	private boolean runFlag = false;
 	private Updater updater;
 	private AgoraApplication agora;
 
-	DbHelper dbHelper;
-	SQLiteDatabase db;
+	private DbHelper dbHelper;
+	private SQLiteDatabase db;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -37,7 +37,7 @@ public class UpdaterService extends Service {
 		this.agora = (AgoraApplication) getApplication();
 		this.updater = new Updater();
 
-		dbHelper = new DbHelper(this);
+		this.dbHelper = new DbHelper(this);
 
 		Log.d(TAG, "onCreated");
 	}
@@ -69,7 +69,7 @@ public class UpdaterService extends Service {
 	 * Thread that performs the actual update from the online service
 	 */
 	private class Updater extends Thread {
-		List<winterwell.jtwitter.Status> timeline;
+		List<RssItem> timeline;
 
 		public Updater() {
 			super("UpdaterService-Updater");
@@ -83,8 +83,8 @@ public class UpdaterService extends Service {
 				try {
 					// Get the timeline from the cloud
 					try {
-						//timeline = agora.getTwitter().getHomeTimeline();
-						timeline = getHomeTimeline();
+						RssReader rssReader = agora.getRssReader();
+						timeline = rssReader.getItems();
 
 						// Open the database for writing
 						db = dbHelper.getWritableDatabase();
@@ -92,25 +92,26 @@ public class UpdaterService extends Service {
 						// Loop over the timeline and print it out
 						ContentValues values = new ContentValues();
 						// Loop over the timeline
-						for (winterwell.jtwitter.Status status : timeline) {
+						for (RssItem item : timeline) {
 							// Insert into database
 							values.clear();
-							values.put(DbHelper.C_ID, status.id.intValue());
+							values.put(DbHelper.C_ID, item.getId());
 							values.put(DbHelper.C_CREATED_AT,
-									status.createdAt.getTime());
-							values.put(DbHelper.C_SOURCE, status.source);
-							values.put(DbHelper.C_TEXT, status.text);
-							values.put(DbHelper.C_USER, status.user.name);
+									item.getCreatedAt());
+							values.put(DbHelper.C_TEXT, item.getText());
+							values.put(DbHelper.C_USER, item.getUsername());
 
 							db.insertOrThrow(DbHelper.TABLE, null, values);
 							Log.d(TAG, String.format("%s: %s",
-									status.user.name, status.text));
+									item.getUsername(), item.getText()));
 						}
 						// Close the database
 						db.close();
 
 					} catch (TwitterException e) {
 						Log.e(TAG, "Failed to connect to twitter service", e);
+					} catch (Exception e) {
+						Log.e(TAG, "Failed to retrieve RSS Feed items", e);
 					}
 
 					Log.d(TAG, "Updater ran");
@@ -119,13 +120,6 @@ public class UpdaterService extends Service {
 					updaterService.runFlag = false;
 				}
 			}
-		}
-
-		private List<winterwell.jtwitter.Status> getHomeTimeline() {
-			List<winterwell.jtwitter.Status> timeline = new ArrayList<winterwell.jtwitter.Status>();
-			timeline.add(new winterwell.jtwitter.Status(new User("steven"),
-					"This is a test", 12345, new Date()));
-			return timeline;
 		}
 	} // Updater
 }

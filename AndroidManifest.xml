@@ -27,7 +27,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".PrefsActivity"
+			android:name="telerik.academy.agora.preferences.PrefsActivity"
 			android:label="@string/titlePrefs" />
 		<service android:name=".UpdaterService" />
 	</application>
