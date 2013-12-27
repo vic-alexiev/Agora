@@ -17,8 +17,8 @@
 		android:name=".AgoraApplication"
 		android:theme="@style/AppTheme">
 		<activity
-			android:name="telerik.academy.agora.StatusActivity"
-			android:label="@string/app_name"
+			android:name="telerik.academy.agora.TimelineActivity"
+			android:label="@string/titleTimeline"
 			android:theme="@android:style/Theme.Light">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -29,6 +29,9 @@
 		<activity
 			android:name="telerik.academy.agora.preferences.PrefsActivity"
 			android:label="@string/titlePrefs" />
+		<activity 
+			android:name=".StatusActivity" 
+			android:label="@string/titleStatus" />
 		<service android:name=".UpdaterService" />
 	</application>
 

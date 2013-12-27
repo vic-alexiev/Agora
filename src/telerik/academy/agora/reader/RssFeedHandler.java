@@ -123,7 +123,7 @@ public class RssFeedHandler extends DefaultHandler {
 					CharSequence source = CharBuffer.wrap(ch);
 					String date = TextUtils.substring(source,
 							TextUtils.indexOf(source, ',') + 2,
-							TextUtils.indexOf(source, '-') - 1);
+							TextUtils.indexOf(source, '-') - 2);
 
 					createdAt = format.parse(date);
 					currentItem.setCreatedAt(createdAt.getTime());
