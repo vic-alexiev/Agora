@@ -53,6 +53,7 @@ public class AgoraApplication extends Application implements
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
+		this.statusData.close();
 		Log.i(TAG, "onTerminated");
 	}
 

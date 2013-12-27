@@ -44,7 +44,7 @@ public class BaseActivity extends Activity {
 			}
 			break;
 		case R.id.itemPurge:
-			//((AgoraApplication) getApplication()).getStatusData().delete();
+			((AgoraApplication) getApplication()).getStatusData().delete();
 			Toast.makeText(this, R.string.msgAllDataPurged, Toast.LENGTH_LONG)
 					.show();
 			break;
