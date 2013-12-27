@@ -2,10 +2,15 @@ package telerik.academy.agora;
 
 import telerik.academy.agora.database.StatusData;
 import telerik.academy.agora.preferences.PrefsActivity;
+import telerik.academy.agora.updates.UpdaterService;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -15,12 +20,15 @@ import android.widget.Toast;
 
 public class TimelineActivity extends BaseActivity {
 
+	static final String SEND_TIMELINE_NOTIFICATIONS = "telerik.academy.agora.SEND_TIMELINE_NOTIFICATIONS";
 	Cursor cursor;
 	ListView listTimeline;
 	SimpleCursorAdapter adapter;
 	static final String[] FROM = { StatusData.C_CREATED_AT, StatusData.C_USER,
 			StatusData.C_TEXT };
 	static final int[] TO = { R.id.textCreatedAt, R.id.textUser, R.id.textText };
+	TimelineReceiver receiver;
+	IntentFilter filter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,10 @@ public class TimelineActivity extends BaseActivity {
 
 		// Find your views
 		listTimeline = (ListView) findViewById(R.id.listTimeline);
+
+		// Create the receiver
+		receiver = new TimelineReceiver();
+		filter = new IntentFilter( UpdaterService.NEW_STATUS_INTENT );
 	}
 
 	@Override
@@ -47,11 +59,23 @@ public class TimelineActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+
+		// Unregister the receiver
+		unregisterReceiver(receiver);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
 		// Setup List
 		this.setupList();
+
+		// Register the receiver
+		super.registerReceiver(receiver, filter, SEND_TIMELINE_NOTIFICATIONS,
+				null);
 	}
 
 	// Responsible for fetching data and setting up the list and the adapter
@@ -82,4 +106,15 @@ public class TimelineActivity extends BaseActivity {
 			return true;
 		}
 	};
+
+	// Receiver to wake up when UpdaterService gets a new status
+	// It refreshes the timeline list by requerying the cursor
+	class TimelineReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			setupList();
+			Log.d("TimelineReceiver", "onReceived");
+		}
+	}
 }

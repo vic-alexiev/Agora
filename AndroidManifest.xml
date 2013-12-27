@@ -9,6 +9,8 @@
 		android:minSdkVersion="11"
 		android:targetSdkVersion="18" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 	<application
 		android:allowBackup="true"
@@ -16,6 +18,7 @@
 		android:label="@string/app_name"
 		android:name=".AgoraApplication"
 		android:theme="@style/AppTheme">
+
 		<activity
 			android:name="telerik.academy.agora.TimelineActivity"
 			android:label="@string/titleTimeline"
@@ -26,13 +29,28 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
 		<activity
 			android:name="telerik.academy.agora.preferences.PrefsActivity"
 			android:label="@string/titlePrefs" />
-		<activity 
-			android:name=".StatusActivity" 
+
+		<activity
+			android:name=".StatusActivity"
 			android:label="@string/titleStatus" />
-		<service android:name=".UpdaterService" />
+
+		<service android:name="telerik.academy.agora.updates.UpdaterService" />
+
+		<receiver android:name="telerik.academy.agora.updates.BootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+
+		<receiver android:name="telerik.academy.agora.updates.NetworkReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
 	</application>
 
 </manifest>

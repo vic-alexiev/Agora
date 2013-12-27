@@ -1,6 +1,7 @@
 package telerik.academy.agora;
 
 import telerik.academy.agora.preferences.PrefsActivity;
+import telerik.academy.agora.updates.UpdaterService;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
