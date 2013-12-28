@@ -10,7 +10,6 @@ public class UpdaterService extends Service {
 
 	public static final String NEW_STATUS_INTENT = "telerik.academy.agora.NEW_STATUS";
 	public static final String NEW_STATUS_EXTRA_COUNT = "NEW_STATUS_EXTRA_COUNT";
-	public static final String RECEIVE_TIMELINE_NOTIFICATIONS = "telerik.academy.agora.RECEIVE_TIMELINE_NOTIFICATIONS";
 
 	private static final String TAG = "UpdaterService";
 
@@ -62,6 +61,9 @@ public class UpdaterService extends Service {
 	 */
 	private class Updater extends Thread {
 
+		static final String RECEIVE_TIMELINE_NOTIFICATIONS = "telerik.academy.agora.RECEIVE_TIMELINE_NOTIFICATIONS";
+		Intent intent;
+
 		public Updater() {
 			super("UpdaterService-Updater");
 		}
@@ -77,10 +79,10 @@ public class UpdaterService extends Service {
 					int newUpdates = agora.fetchStatusUpdates();
 					if (newUpdates > 0) {
 						Log.d(TAG, "We have a new status");
-						Intent intent = new Intent(NEW_STATUS_INTENT);
+						intent = new Intent(NEW_STATUS_INTENT);
 						intent.putExtra(NEW_STATUS_EXTRA_COUNT, newUpdates);
-						updaterService.sendBroadcast(intent, RECEIVE_TIMELINE_NOTIFICATIONS);
-						//sendTimelineNotification(newUpdates);
+						updaterService.sendBroadcast(intent,
+								RECEIVE_TIMELINE_NOTIFICATIONS);
 					}
 					Thread.sleep(DELAY);
 				} catch (InterruptedException e) {
