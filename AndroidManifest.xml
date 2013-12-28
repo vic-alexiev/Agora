@@ -67,6 +67,10 @@
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
+
+		<provider
+			android:name="telerik.academy.agora.database.StatusProvider"
+			android:authorities="telerik.academy.agora.database.statusprovider" />
 	</application>
 
 </manifest>
