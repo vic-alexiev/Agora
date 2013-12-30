@@ -13,7 +13,7 @@ public class StatusProvider extends ContentProvider {
 	private static final String TAG = StatusProvider.class.getSimpleName();
 
 	public static final Uri CONTENT_URI = Uri
-			.parse("content://telerik.academy.agora.statusprovider");
+			.parse("content://telerik.academy.agora.database.statusprovider");
 	public static final String SINGLE_RECORD_MIME_TYPE = "vnd.android.cursor.item/vnd.academy.agora.status";
 	public static final String MULTIPLE_RECORDS_MIME_TYPE = "vnd.android.cursor.dir/vnd.academy.agora.status";
 
