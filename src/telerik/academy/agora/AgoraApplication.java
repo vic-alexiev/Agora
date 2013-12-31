@@ -19,27 +19,14 @@ public class AgoraApplication extends Application implements
 		OnSharedPreferenceChangeListener {
 
 	private static final String TAG = AgoraApplication.class.getSimpleName();
-	private boolean serviceRunning;
+	public static final String LOCATION_PROVIDER_NONE = "NONE";
+	public static final long INTERVAL_NEVER = 0;
 	public Twitter twitter;
-	public RssReader rssReader;
 	private SharedPreferences prefs;
+	public RssReader rssReader;
 	private StatusData statusData;
-
-	public synchronized SharedPreferences getPrefs() {
-		return this.prefs;
-	}
-
-	public StatusData getStatusData() {
-		return this.statusData;
-	}
-
-	public boolean isServiceRunning() {
-		return this.serviceRunning;
-	}
-
-	public void setServiceRunning(boolean serviceRunning) {
-		this.serviceRunning = serviceRunning;
-	}
+	private boolean serviceRunning;
+	private boolean inTimeline;
 
 	@Override
 	public void onCreate() {
@@ -47,14 +34,19 @@ public class AgoraApplication extends Application implements
 		this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		this.prefs.registerOnSharedPreferenceChangeListener(this);
 		this.statusData = new StatusData(this);
-		Log.i(TAG, "onCreated");
+		Log.i(TAG, "Application started");
 	}
 
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
 		this.statusData.close();
-		Log.i(TAG, "onTerminated");
+		Log.i(TAG, "Application terminated");
+	}
+
+	public synchronized void onSharedPreferenceChanged(
+			SharedPreferences sharedPreferences, String key) {
+		this.twitter = null;
 	}
 
 	public synchronized Twitter getTwitter() {
@@ -79,9 +71,41 @@ public class AgoraApplication extends Application implements
 		return this.rssReader;
 	}
 
-	public synchronized void onSharedPreferenceChanged(
-			SharedPreferences sharedPreferences, String key) {
-		this.twitter = null;
+	public synchronized SharedPreferences getPrefs() {
+		return this.prefs;
+	}
+
+	public boolean startOnBoot() {
+		return this.prefs.getBoolean("startOnBoot", false);
+	}
+
+	public StatusData getStatusData() {
+		return this.statusData;
+	}
+
+	public boolean isServiceRunning() {
+		return this.serviceRunning;
+	}
+
+	public void setServiceRunning(boolean serviceRunning) {
+		this.serviceRunning = serviceRunning;
+	}
+
+	public boolean isInTimeline() {
+		return this.inTimeline;
+	}
+
+	public void setInTimeline(boolean inTimeline) {
+		this.inTimeline = inTimeline;
+	}
+
+	public String getProvider() {
+		return prefs.getString("provider", LOCATION_PROVIDER_NONE);
+	}
+
+	public long getInterval() {
+		// For some reason storing interval as long doesn't work
+		return Long.parseLong(prefs.getString("interval", "0"));
 	}
 
 	// Connects to the online service and puts the latest statuses into DB.
@@ -110,7 +134,7 @@ public class AgoraApplication extends Application implements
 					count++;
 				}
 			}
-			
+
 			Log.d(TAG, count > 0 ? "Got " + count + " status updates"
 					: "No new status updates");
 			return count;

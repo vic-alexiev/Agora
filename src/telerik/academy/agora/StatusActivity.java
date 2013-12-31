@@ -2,13 +2,14 @@ package telerik.academy.agora;
 
 import winterwell.jtwitter.TwitterException;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,12 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class StatusActivity extends BaseActivity implements OnClickListener,
-		TextWatcher {
+		TextWatcher, LocationListener {
 
 	private static final String TAG = "StatusActivity";
-	private EditText editText;
-	private Button updateButton;
-	private TextView textCount;
+	private static final long LOCATION_MIN_TIME = 3600000; // One hour
+	private static final float LOCATION_MIN_DISTANCE = 1000; // One kilometer
+	EditText editText;
+	Button updateButton;
+	TextView textCount;
+	LocationManager locationManager;
+	Location location;
+	String provider;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -42,26 +48,59 @@ public class StatusActivity extends BaseActivity implements OnClickListener,
 		textCount.setTextColor(Color.rgb(178, 168, 26)); // green
 	}
 
-	// Called first time user clicks on the menu button
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
+	protected void onResume() {
+		super.onResume();
+
+		// Setup location information
+		provider = agora.getProvider();
+		if (!AgoraApplication.LOCATION_PROVIDER_NONE.equals(provider)) {
+			locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		}
+		if (locationManager != null) {
+			location = locationManager.getLastKnownLocation(provider);
+			locationManager.requestLocationUpdates(provider, LOCATION_MIN_TIME,
+					LOCATION_MIN_DISTANCE, this);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (locationManager != null) {
+			locationManager.removeUpdates(this);
+		}
+	}
+
+	// Called when button is clicked
+	public void onClick(View view) {
+
+		// Update twitter status
+		String status = editText.getText().toString();
+		new PostToTwitter().execute(status);
+		Log.d(TAG, "onClicked");
 	}
 
 	// Asynchronously posts to twitter
-	private class PostToTwitter extends AsyncTask<String, Integer, String> {
-
+	class PostToTwitter extends AsyncTask<String, Integer, String> {
 		// Called to initiate the background activity
 		@Override
 		protected String doInBackground(String... statuses) {
 			try {
-				AgoraApplication agora = ((AgoraApplication) getApplication());
+				// Check if we have the location
+				if (location != null) {
+					double latlong[] = { location.getLatitude(),
+							location.getLongitude() };
+					agora.getTwitter().setMyLocation(latlong);
+				}
+
 				winterwell.jtwitter.Status status = agora.getTwitter()
 						.updateStatus(statuses[0]);
 				return status.text;
 			} catch (TwitterException e) {
+				Log.e(TAG, "Failed to connect to twitter service", e);
+				return "Failed to post";
+			} catch (RuntimeException e) {
 				Log.e(TAG, "Failed to connect to twitter service", e);
 				return "Failed to post";
 			}
@@ -82,15 +121,6 @@ public class StatusActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 
-	// Called when button is clicked
-	public void onClick(View view) {
-
-		// Update twitter status
-		String status = editText.getText().toString();
-		new PostToTwitter().execute(status);
-		Log.d(TAG, "onClicked");
-	}
-
 	// TextWatcher methods
 	public void afterTextChanged(Editable statusText) {
 		int count = 140 - statusText.length();
@@ -107,5 +137,24 @@ public class StatusActivity extends BaseActivity implements OnClickListener,
 	}
 
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
+	}
+
+	// LocationListener methods
+	public void onLocationChanged(Location location) {
+		this.location = location;
+	}
+
+	public void onProviderDisabled(String provider) {
+		if (this.provider.equals(provider))
+			locationManager.removeUpdates(this);
+	}
+
+	public void onProviderEnabled(String provider) {
+		if (this.provider.equals(provider))
+			locationManager.requestLocationUpdates(this.provider,
+					LOCATION_MIN_TIME, LOCATION_MIN_DISTANCE, this);
+	}
+
+	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 }

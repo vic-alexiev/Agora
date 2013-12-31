@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="summaryUpdaterInterval">How often should Updater service run?</string>
+	<string name="titleUpdaterInterval">Updater Interval</string>
+	<string name="summaryStartAtBoot">Should Updater service automatically start at boot
+		time?
+	</string>
+	<string name="titleStartAtBoot">Start Updater at Boot?</string>
+	<string name="titleRefresh">Refresh</string>
+	<string name="summaryProvider">Provide your location?</string>
+	<string name="titleProvider">Location Provider</string>
 	<string name="app_name">Agora</string>
+	<string name="titleAgora">Agora</string>
 	<string name="action_settings">Settings</string>
+	<string name="counterText">000</string>
+
+	<string name="hintText">Please enter your 140-character status</string>
+	<string name="buttonUpdate">Update</string>
 
 	<string name="titleStatus">Status Update</string>
 	<string name="titlePrefs">Preferences</string>
-	<string name="titlePurge">Purge Data</string>
-	<string name="titleServiceStart">Start Service</string>
+	<string name="titleTimeline">Timeline</string>
 	<string name="titleServiceStop">Stop Service</string>
+	<string name="titleServiceStart">Start Service</string>
+	<string name="titlePurge">Purge Data</string>
 	<string name="titleUsername">Username</string>
 	<string name="titlePassword">Password</string>
 	<string name="titleApiRoot">API Root</string>
-	<string name="titleTimeline">Timeline</string>
-
-	<string name="counterText">000</string>
-	<string name="hintText">Please enter your 140-character status</string>
-	<string name="buttonUpdate">Update</string>
 
 	<string name="summaryUsername">Please enter your username</string>
 	<string name="summaryPassword">Please enter your password</string>
@@ -40,4 +50,39 @@
 	<string name="receive_timeline_notifications_permission_description">Allow this application to receive timeline
 		notifications from other applications
 	</string>
+
+	<string name="sql1">CREATE TABLE timeline ( _id integer primary
+		key,created_at integer, source text, txt text, user text );
+	</string>
+
+	<string-array name="providers">
+		<item>None, please</item>
+		<item>GPS via satellites!</item>
+		<item>Mobile Network will do</item>
+	</string-array>
+
+	<string-array name="providerValues">
+		<item>NONE</item>
+		<item>gps</item>
+		<item>network</item>
+	</string-array>
+
+	<string-array name="interval">
+		<item>Never</item>
+		<item>Fifteen minutes</item>
+		<item>Half hour</item>
+		<item>An hour</item>
+		<item>Half day</item>
+		<item>Day</item>
+	</string-array>
+
+	<string-array name="intervalValues">
+		<item>0</item>
+		<item>900000</item>
+		<item>1800000</item>
+		<item>3600000</item>
+		<item>43200000</item>
+		<item>86400000</item>
+	</string-array>
+
 </resources>

@@ -18,4 +18,18 @@
         android:title="@string/titleApiRoot" >
     </EditTextPreference>
 
+    <ListPreference
+        android:entries="@array/providers"
+        android:entryValues="@array/providerValues"
+        android:key="provider"
+        android:summary="@string/summaryProvider"
+        android:title="@string/titleProvider" />
+    <ListPreference
+        android:entries="@array/interval"
+        android:entryValues="@array/intervalValues"
+        android:key="interval"
+        android:summary="@string/summaryUpdaterInterval"
+        android:title="@string/titleUpdaterInterval" >
+    </ListPreference>
+
 </PreferenceScreen>
