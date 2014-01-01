@@ -22,9 +22,9 @@
         android:title="@string/titlePurge">
     </item>
     <item
-        android:id="@+id/itemToggleService"
-        android:icon="@android:drawable/ic_media_play"
-        android:title="@string/titleServiceStart">
+        android:id="@+id/itemRefresh"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:title="@string/titleRefresh">
     </item>
 
 </menu>

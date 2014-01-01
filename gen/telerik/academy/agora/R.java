@@ -44,9 +44,9 @@ public final class R {
         public static final int editText=0x7f0b0005;
         public static final int itemPrefs=0x7f0b000a;
         public static final int itemPurge=0x7f0b000b;
+        public static final int itemRefresh=0x7f0b000c;
         public static final int itemStatus=0x7f0b0008;
         public static final int itemTimeline=0x7f0b0009;
-        public static final int itemToggleService=0x7f0b000c;
         public static final int listTimeline=0x7f0b0007;
         public static final int textCount=0x7f0b0004;
         public static final int textCreatedAt=0x7f0b0002;
